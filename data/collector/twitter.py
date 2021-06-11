@@ -73,6 +73,8 @@ class TwitterCrawler(Collector):
         for keyword in COIN_KEYWORDS[self.settings.coin]:
             if self.settings.only_users:
                 for username in usernames:
+                    self.config.Output = "out.csv"
+                    self.config.Resume = "out_last.csv"
                     self.config.Username = username
                     self.config.Search = keyword
                     while True:
