@@ -55,7 +55,8 @@ six==1.16.0
 sortedcontainers==2.4.0
 soupsieve==2.2.1
 SQLAlchemy==1.4.17
-torch==1.8.1
+-f https://download.pytorch.org/whl/torch_stable.html
+torch==1.8.1+cpu
 tqdm==4.61.0
 -e git+https://github.com/twintproject/twint.git@e7c8a0c764f6879188e5c21e25fb6f1f856a7221#egg=twint
 typing-extensions==3.10.0.0
