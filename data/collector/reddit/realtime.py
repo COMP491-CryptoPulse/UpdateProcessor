@@ -39,7 +39,7 @@ class RealtimeRedditCrawler(Collector):
                 continue
             if time_range.is_lower(created_time):
                 break
-            print("RealtimeRedditCrawler:", "Found post", submission.title, "with time", time_to_str(created_time))
+            # print("RealtimeRedditCrawler:", "Found post", submission.title, "with time", time_to_str(created_time))
             interaction_score = calculate_interaction_score(submission.num_comments, submission.score)
             subreddit_source = "reddit/" + submission.subreddit.display_name
             # Concatenate the title and the contents of the post.

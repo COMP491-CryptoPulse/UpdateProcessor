@@ -8,7 +8,7 @@ from misc import TimeRange, CoinType
 import os
 import csv
 
-LIMIT = True
+LIMIT = False
 
 usernames = ["officialmcafee", "VitalikButerin", "SatoshiLite", "pmarca", "rogerkver", "aantonop", "ErikVoorhees",
              "NickSzabo4", "CryptoYoda1338", "bgarlinghouse", "WhalePanda", "cryptoSqueeze", "ZeusZissou",
