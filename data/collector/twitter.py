@@ -73,8 +73,6 @@ class TwitterCrawler(Collector):
         for keyword in COIN_KEYWORDS[self.settings.coin]:
             if self.settings.only_users:
                 for username in usernames:
-                    self.config.Output = "out.csv"
-                    self.config.Resume = "out_last.csv"
                     self.config.Username = username
                     self.config.Search = keyword
                     while True:
@@ -86,6 +84,9 @@ class TwitterCrawler(Collector):
                     os.remove("out_last.csv")
                     os.remove("twint-last-request.log")
                     os.remove("twint-request_urls.log")
+                    if not os.path.exists("out.csv"):
+                        print("TwitterCrawler: Empty output. Skipping.")
+                        continue
                     with open("out.csv", "r") as file:
                         next(file)
                         reader = csv.reader(file)
