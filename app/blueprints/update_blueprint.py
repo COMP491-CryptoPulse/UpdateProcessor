@@ -32,7 +32,7 @@ def collect_posts():
     print("Collect posts endpoint: Collecting new posts within", effective_time_range)
     archived_reddit_crawler = ArchivedRedditCrawler(interval=delta_time.days(1), api_settings={'limit': 2000})
     realtime_reddit_crawler = RealtimeRedditCrawler()
-    social_media_crawlers = [TwitterCrawler(only_users=True), RedditMultiplexedCrawler(delta_time.days(2), realtime_reddit_crawler,
+    social_media_crawlers = [TwitterCrawler(only_users=False), RedditMultiplexedCrawler(delta_time.days(2), realtime_reddit_crawler,
                                                                         archived_reddit_crawler)]
     cached_post_readers = list(map(lambda c: UncachedReader(c, Post, save_interval=delta_time.days(10)),
                                    social_media_crawlers))
