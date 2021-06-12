@@ -106,7 +106,8 @@ class TwitterCrawler(Collector):
 
                     os.remove("out.csv")
             else:
-                self.config.Search = "#" + keyword
+                # TODO Move out of the loop.
+                self.config.Search = " OR ".join(COIN_KEYWORDS[self.settings.coin])
                 while True:
                     try:
                         twint.run.Search(self.config)
@@ -133,3 +134,4 @@ class TwitterCrawler(Collector):
                                    coin_type=self.settings.coin)
 
                 os.remove("out.csv")
+                break
