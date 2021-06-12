@@ -13,8 +13,8 @@ from misc import CoinType, TimeRange, time_to_str
 class RealtimeRedditCrawler(Collector):
 
     def __init__(self, coin: CoinType = CoinType.btc, limit: int = DEFAULT_PRAW_SUBMISSION_LIMIT,
-                 collect_comments=False):
-        super().__init__(coin=coin, limit=limit, collect_comments=collect_comments)
+                 collect_comments=False, min_score=-1):
+        super().__init__(coin=coin, limit=limit, collect_comments=collect_comments, min_score=min_score)
         self.spider = praw.Reddit(client_id=CLIENT_ID, client_secret=CLIENT_SECRET,
                                   user_agent=USER_AGENT)
 
@@ -40,6 +40,9 @@ class RealtimeRedditCrawler(Collector):
             if time_range.is_lower(created_time):
                 break
             # print("RealtimeRedditCrawler:", "Found post", submission.title, "with time", time_to_str(created_time))
+            # Skip if the score is too low.
+            if self.settings.min_score >= 0 and submission.score < self.settings.min_score:
+                continue
             interaction_score = calculate_interaction_score(submission.num_comments, submission.score)
             subreddit_source = "reddit/" + submission.subreddit.display_name
             # Concatenate the title and the contents of the post.

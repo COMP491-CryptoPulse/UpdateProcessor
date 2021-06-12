@@ -108,7 +108,7 @@ class TwitterCrawler(Collector):
             else:
                 # TODO Move out of the loop.
                 self.config.Search = " OR ".join(COIN_KEYWORDS[self.settings.coin])
-                self.config.Min_likes = 10
+                self.config.Min_likes = 3
                 while True:
                     try:
                         twint.run.Search(self.config)
