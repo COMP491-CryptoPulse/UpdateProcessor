@@ -117,6 +117,7 @@ class TwitterCrawler(Collector):
                 os.remove("out_last.csv")
                 os.remove("twint-last-request.log")
                 os.remove("twint-request_urls.log")
+                print("TwitterCrawler: Twint search complete.")
                 with open("out.csv", "r") as file:
                     next(file)
                     reader = csv.reader(file)
