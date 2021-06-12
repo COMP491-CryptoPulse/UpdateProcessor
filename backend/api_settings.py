@@ -4,7 +4,7 @@ from data.database import db, Post, Price, StreamedPost
 from data.database.aggregate_models import StreamedAggregatePostCount, AggregatePostCount
 from misc import delta_time
 
-GENESIS = 1615386994
+GENESIS = 1620821209
 
 POST_COUNT_INTERVAL = 60
 STREAMED_POST_COUNT_INTERVAL = 20
