@@ -34,7 +34,7 @@ def collect_posts():
     realtime_reddit_crawler = RealtimeRedditCrawler()
     social_media_crawlers = [TwitterCrawler(only_users=False), RedditMultiplexedCrawler(delta_time.days(2), realtime_reddit_crawler,
                                                                         archived_reddit_crawler)]
-    cached_post_readers = list(map(lambda c: UncachedReader(c, Post, save_interval=delta_time.days(1)),
+    cached_post_readers = list(map(lambda c: UncachedReader(c, Post, save_interval=delta_time.days(10)),
                                    social_media_crawlers))
     new_posts = []
     for coin in COINS:
