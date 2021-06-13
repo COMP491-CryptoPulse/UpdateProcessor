@@ -106,7 +106,11 @@ class NotificationDeployer:
 
 def deploy_notifications(curr_time: int, coins, sources, mailer: Mailer):
     d = NotificationDeployer(coins, sources)
+    print("NotificationDeployment: Calculating change map...")
     d.prepare_change_map(AggregatePostCount, StreamedAggregatePostCount, curr_time)
+    for time_window in d.post_count_change_map:
+        for aggr_source in d.post_count_change_map[time_window]:
+            print(time_window, "=>", aggr_source, "=>", d.post_count_change_map[time_window][aggr_source])
     triggers = Trigger.query.all()
     triggers_to_email = []
     for t in triggers:
