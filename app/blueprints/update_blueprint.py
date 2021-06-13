@@ -41,7 +41,7 @@ def collect_posts():
         print("Collect posts endpoint: Switching coin to", coin.value)
         for cr in cached_post_readers:
             cr.collector.update_coin(coin)
-            new_posts += cr.read_uncached(effective_time_range)
+            new_posts += cr.read_uncached(TimeRange(effective_time_range.low, effective_time_range.high))
     return "ok"
 
 
