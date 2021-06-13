@@ -4,6 +4,7 @@ from flask import Blueprint, request, current_app
 
 from backend import api_settings
 from backend.api_settings import GENESIS
+from backend.app_helpers import get_all_sources
 from backend.processor.aggregate_post_count import create_aggregate_post_counts, create_streamed_aggregate_post_counts
 from backend.processor.mail_deployment import Mailer
 from backend.processor.notification_deployment import deploy_notifications
@@ -17,6 +18,7 @@ from data.reader.uncachedreader import UncachedReader
 from misc import CoinType, TimeRange, delta_time
 
 COINS = [CoinType.btc, CoinType.eth, CoinType.doge]
+SOURCES = get_all_sources()
 
 update_blueprint = Blueprint("update", __name__)
 
@@ -98,7 +100,7 @@ def update_stream():
         return "no new streamed posts"
     effective_time_range = TimeRange(from_time + 1, to_time)
     print("Update stream endpoint: Updating within", effective_time_range)
-    create_streamed_aggregate_post_counts(COINS, [], effective_time_range)
+    create_streamed_aggregate_post_counts(COINS, SOURCES, effective_time_range)
     db.session.commit()
     return "ok"
 
@@ -106,5 +108,5 @@ def update_stream():
 @update_blueprint.route("/notifications", methods=["POST"])
 def update_notifications():
     mailer = Mailer(current_app)
-    deploy_notifications(int(time.time()), COINS, [], mailer)
+    deploy_notifications(int(time.time()), COINS, SOURCES, mailer)
     return "ok"

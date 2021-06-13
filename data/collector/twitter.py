@@ -15,6 +15,8 @@ usernames = ["officialmcafee", "VitalikButerin", "SatoshiLite", "pmarca", "roger
              "Beastlyorion", "bitcoin_dad", "jebus911", "Sicarious", "CryptoMessiah", "APompliano", "nic__carter",
              "CarpeNoctom", "Melt_Dem", "100trillionUSD", "MessariCrypto", "TuurDemeester", "MartyBent", "elonmusk"]
 
+
+# IMPORTANT: THE FIRST VALUE IS TREATED AS THE "GROUP"
 COIN_KEYWORDS = {
     CoinType.btc: ["Bitcoin", "BTC"],
     CoinType.eth: ["Ethereum", "ETH"],
@@ -63,7 +65,7 @@ class TwitterCrawler(Collector):
 
     @staticmethod
     def get_all_sources() -> list:
-        return ["*@twitter/" + s for s in functools.reduce(list.__add__, COIN_KEYWORDS.values())]
+        return ["*@twitter/" + kws[0] for kws in COIN_KEYWORDS.values()]
 
     def collect(self, time_range: TimeRange):
         lower, upper = convert_to_date(time_range)
