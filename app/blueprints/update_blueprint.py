@@ -4,13 +4,13 @@ from flask import Blueprint, request, current_app
 
 from backend import api_settings
 from backend.api_settings import GENESIS
-from backend.app_helpers import get_all_sources
 from backend.processor.aggregate_post_count import create_aggregate_post_counts, create_streamed_aggregate_post_counts
 from backend.processor.mail_deployment import Mailer
 from backend.processor.notification_deployment import deploy_notifications
 from backend.processor.predictor import update_post_impacts
 from data.collector.reddit import ArchivedRedditCrawler, RealtimeRedditCrawler
 from data.collector.reddit.multiplexer import RedditMultiplexedCrawler
+from data.collector.sources import get_exported_sources
 from data.collector.twitter import TwitterCrawler
 from data.collector.yahoo import YahooPriceCrawler
 from data.database import Post, Price, db
@@ -18,7 +18,7 @@ from data.reader.uncachedreader import UncachedReader
 from misc import CoinType, TimeRange, delta_time
 
 COINS = [CoinType.btc, CoinType.eth, CoinType.doge]
-SOURCES = get_all_sources()
+SOURCES = get_exported_sources()
 
 update_blueprint = Blueprint("update", __name__)
 
