@@ -92,19 +92,6 @@ def update_posts():
     return "ok"
 
 
-@update_blueprint.route("/impacts", methods=["POST"])
-def update_impacts():
-    from_time = 1623512738
-    to_time = api_settings.get_last_crawled_post_time(default=None)
-    if to_time is None or from_time >= to_time:
-        return "no new posts"
-    effective_time_range = TimeRange(from_time + 1, to_time)
-    print("Update impacts endpoint: Updating within", effective_time_range)
-    update_post_impacts(effective_time_range)
-    return "ok"
-
-
-
 @update_blueprint.route("/stream", methods=["POST"])
 def update_stream():
     from_time = api_settings.get_last_aggr_stream_time(default=GENESIS)
@@ -121,5 +108,6 @@ def update_stream():
 @update_blueprint.route("/notifications", methods=["POST"])
 def update_notifications():
     mailer = Mailer(current_app)
-    deploy_notifications(int(time.time()), COINS, SOURCES, mailer)
+    last_time = max(api_settings.get_last_streamed_post_time(), api_settings.get_last_crawled_post_time())
+    deploy_notifications(last_time, COINS, SOURCES, mailer)
     return "ok"
