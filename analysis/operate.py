@@ -64,15 +64,12 @@ def train(model, dataset, device, epochs, batch_size, lr):
 
 
 def predict(model, predict_set, device, batch_size=1024):
-    print("Loading data...")
     predict_loader = DataLoader(predict_set, batch_size=batch_size, shuffle=False)
     model.to(device)
     model.eval()
     predictions = np.zeros((0, 4))  # 4 because there are 4 impact scores
-    print("Predicting...")
     with torch.no_grad():
         for i, batch in enumerate(predict_loader):
-            print(i)
             content, user, source, interaction = batch
 
             model.batch_size = content.shape[0]
