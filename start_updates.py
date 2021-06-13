@@ -9,6 +9,7 @@ STREAM_UPDATE_INTERVAL = 40
 POST_UPDATE_INTERVAL = 60 * 60
 PRICE_COLLECT_INTERVAL = 60
 POST_COLLECT_INTERVAL = 60 * 60
+NOTIFICATION_INTERVAL = 2 * 60
 
 
 def collect_prices():
@@ -36,11 +37,18 @@ def update_stream():
     print("Updated stream")
 
 
+def deploy_notifications():
+    print("Deploying notifications")
+    requests.post("http://127.0.0.1:5000/update/notifications")
+    print("Deployed notifications")
+
+
 if __name__ == "__main__":
     cron = BackgroundScheduler(daemon=True)
     cron.add_job(update_stream, "interval", seconds=STREAM_UPDATE_INTERVAL)
     cron.add_job(collect_prices, "interval", seconds=PRICE_COLLECT_INTERVAL)
-    cron.add_job(collect_and_update_posts, "interval", seconds=POST_COLLECT_INTERVAL)
+    cron.add_job(deploy_notifications, "interval", seconds=NOTIFICATION_INTERVAL)
+    # cron.add_job(collect_and_update_posts, "interval", seconds=POST_COLLECT_INTERVAL)
     cron.start()
     atexit.register(lambda: cron.shutdown())
     t = input("Scheduled updates. Press any key to exit.")
