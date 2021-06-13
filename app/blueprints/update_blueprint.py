@@ -18,7 +18,7 @@ from data.reader.uncachedreader import UncachedReader
 from misc import CoinType, TimeRange, delta_time
 
 COINS = [CoinType.btc, CoinType.eth, CoinType.doge]
-SOURCES = get_exported_sources()
+SOURCES = ["*@" + s.source for s in get_exported_sources()]
 
 update_blueprint = Blueprint("update", __name__)
 
