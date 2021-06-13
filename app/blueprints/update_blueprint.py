@@ -85,10 +85,8 @@ def update_posts():
     print("Update posts endpoint: Updating within", effective_time_range)
     # groups = list(filter(lambda s: s.startswith("*"), get_all_sources()))
     # create_aggregate_post_impacts(coin_types, groups, effective_time_range)
-    # TODO uncomment.
-    # create_aggregate_post_counts(COINS, [], effective_time_range)
-    # TODO switch to effective time range.
-    update_post_impacts(TimeRange(GENESIS, to_time))
+    create_aggregate_post_counts(COINS, [], effective_time_range)
+    update_post_impacts(effective_time_range)
     return "ok"
 
 
@@ -101,7 +99,6 @@ def update_stream():
     effective_time_range = TimeRange(from_time + 1, to_time)
     print("Update stream endpoint: Updating within", effective_time_range)
     create_streamed_aggregate_post_counts(COINS, [], effective_time_range)
-    # TODO: Deploy notifications.
     db.session.commit()
     return "ok"
 
