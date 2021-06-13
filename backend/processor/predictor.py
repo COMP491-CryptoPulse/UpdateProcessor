@@ -7,7 +7,7 @@ from analysis.operate import predict
 from data.dataset import load_vectorizer_of, PredictSet
 import torch
 from data.database import Post, db
-from misc import CoinType, TimeRange
+from misc import CoinType, TimeRange, closed_distinct_intervals, delta_time
 
 
 class Predictor:
@@ -34,13 +34,17 @@ pred = Predictor("post2impact_v1_0", "Jun19_May21_Big")
 
 
 def update_post_impacts(time_range: TimeRange, commit=True):
-    # TODO remove limit.
-    posts = Post.query.filter(Post.time <= time_range.high).filter(Post.time >= time_range.low).limit(100).all()
-    for post, prediction in tqdm(zip(posts, pred.predict(posts)), "Updating predictions..."):
-        post.impact = prediction.tobytes()
-        post.avg_impact = mean(list(prediction))
-    if commit:
-        db.session.commit()
+    for time_range_part in closed_distinct_intervals(time_range, delta_time.days(1)):
+        print("Predictor: Updating the predictions within", time_range_part)
+        posts = Post.query\
+            .filter(Post.time <= time_range_part.high)\
+            .filter(Post.time >= time_range_part.low)\
+            .all()
+        for post, prediction in tqdm(zip(posts, pred.predict(posts)), "Updating predictions..."):
+            post.impact = prediction.tobytes()
+            post.avg_impact = mean(list(prediction))
+        if commit:
+            db.session.commit()
 
 
 def _example():
