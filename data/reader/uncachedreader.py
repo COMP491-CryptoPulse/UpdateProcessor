@@ -40,9 +40,9 @@ class UncachedReader(object):
         # First, remove the old data.
         print("UncachedReader: Found", pre_query.count(), "many old rows.")
         if self.replace_old:
-            print("UncachedReader: Removing the old rows...")
-            pre_query.delete()
-            db.session.commit()
+            print("UncachedReader: NOT Removing the old rows... Consider manually removing duplicates!")
+            # pre_query.delete()
+            # db.session.commit()
         interval_generator = (time_range,)
         if self.save_interval is not None:
             interval_generator = closed_distinct_intervals(time_range, self.save_interval)
