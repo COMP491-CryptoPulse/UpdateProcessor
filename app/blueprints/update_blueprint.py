@@ -19,6 +19,9 @@ from misc import CoinType, TimeRange, delta_time
 
 COINS = [CoinType.btc, CoinType.eth, CoinType.doge]
 SOURCES = ["*@" + s.source for s in get_exported_sources()]
+NOTIFICATION_SOURCES = ["*@twitter/bitcoin", "*@twitter/ethereum", "*@twitter/dogecoin",
+                        "*@reddit/btc", "*@reddit/bitcoin", "*@reddit/ethereum", "*@reddit/eth",
+                        "*@reddit/dogecoin"]
 
 update_blueprint = Blueprint("update", __name__)
 
@@ -109,5 +112,5 @@ def update_stream():
 def update_notifications():
     mailer = Mailer(current_app)
     last_time = max(api_settings.get_last_streamed_post_time(), api_settings.get_last_crawled_post_time())
-    deploy_notifications(last_time, COINS, SOURCES, mailer)
+    deploy_notifications(last_time, COINS, NOTIFICATION_SOURCES, mailer)
     return "ok"
