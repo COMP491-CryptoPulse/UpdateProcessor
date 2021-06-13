@@ -88,7 +88,7 @@ def update_posts():
     # groups = list(filter(lambda s: s.startswith("*"), get_all_sources()))
     # create_aggregate_post_impacts(coin_types, groups, effective_time_range)
     create_aggregate_post_counts(COINS, SOURCES, effective_time_range)
-    # update_post_impacts(effective_time_range)
+    update_post_impacts(effective_time_range)
     return "ok"
 
 
