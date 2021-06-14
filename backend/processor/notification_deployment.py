@@ -84,6 +84,9 @@ class NotificationDeployer:
     # triggered.
     def process_trigger(self, trigger: Trigger) -> (Notification, bool):
         # Lookup the relevant change in the change map.
+        if trigger.time_window not in self.post_count_change_map \
+                or trigger.follow.type + ":" + trigger.follow.target not in self.post_count_change_map[trigger.time_window]:
+            return None, False
         change = self.post_count_change_map[trigger.time_window][trigger.follow.type + ":" + trigger.follow.target]
         # If the change is above the set threshold...
         if change >= trigger.threshold:
